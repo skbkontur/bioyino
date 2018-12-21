@@ -397,20 +397,20 @@ where
                     // this will return None interrupting the iteration and making other
                     // aggregations unreachable since they are useless in that case
                     1 => agg.last().map(|last| (".last", (*last).into())),
-                    2 => Some((".min", agg[0].into())),
-                    3 => Some((".max", agg[agg.len() - 1].into())),
+                    2 => Some((".lower", agg[0].into())),
+                    3 => Some((".upper", agg[agg.len() - 1].into())),
                     4 => Some((".sum", self.timer_sum.unwrap().into())),
                     5 => Some((".median", percentile(agg, 0.5).into())),
                     6 => {
                         let len: Float = (agg.len() as u32).into();
                         Some((".mean", self.timer_sum.unwrap().into() / len))
                     }
-                    7 => Some((".percentile.75", percentile(agg, 0.75).into())),
-                    8 => Some((".percentile.95", percentile(agg, 0.95).into())),
-                    9 => Some((".percentile.98", percentile(agg, 0.98).into())),
-                    10 => Some((".percentile.99", percentile(agg, 0.99).into())),
-                    11 => Some((".percentile.999", percentile(agg, 0.999).into())),
-                    12 => Some((".percentile.50", percentile(agg, 0.5).into())),
+                    7 => Some((".p75", percentile(agg, 0.75).into())),
+                    8 => Some((".p95", percentile(agg, 0.95).into())),
+                    9 => Some((".p98", percentile(agg, 0.98).into())),
+                    10 => Some((".p99", percentile(agg, 0.99).into())),
+                    11 => Some((".p999", percentile(agg, 0.999).into())),
+                    12 => Some((".p50", percentile(agg, 0.5).into())),
                     _ => None,
                 }
             }

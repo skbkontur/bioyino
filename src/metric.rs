@@ -9,6 +9,8 @@ use failure::Error;
 use protocol_capnp::metric as cmetric;
 use Float;
 
+use flush_interval_get;
+
 #[derive(Fail, Debug)]
 pub enum MetricError {
     #[fail(display = "float conversion")]
@@ -411,6 +413,8 @@ where
                     10 => Some((".p99", percentile(agg, 0.99).into())),
                     11 => Some((".p999", percentile(agg, 0.999).into())),
                     12 => Some((".p50", percentile(agg, 0.5).into())),
+                    13 => Some((".rate", self.timer_sum.unwrap().into() / flush_interval_get())),
+                    14 => Some((".sample_rate", Float::from(agg.len() as u32) / flush_interval_get())),
                     _ => None,
                 }
             }

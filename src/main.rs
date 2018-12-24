@@ -98,6 +98,20 @@ use util::{
 // TODO: make in into compilation feature
 pub type Float = f64;
 
+static mut FLUSH_INTERVAL: Float = 0.0;
+
+fn flush_interval_set(f: Float) {
+    unsafe {
+    	FLUSH_INTERVAL = f;
+    }
+}
+
+pub fn flush_interval_get() -> Float {
+    unsafe {
+    	FLUSH_INTERVAL
+    }
+}
+
 // a type to store pre-aggregated data
 pub type Cache = HashMap<Bytes, Metric<Float>>;
 
@@ -198,6 +212,8 @@ fn main() {
         stats_prefix,
         consensus,
     } = system;
+    
+    flush_interval_set(carbon.interval as f64 / 1000.0);
 
     let verbosity = Level::from_str(&verbosity).expect("bad verbosity");
 

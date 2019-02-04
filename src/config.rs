@@ -278,6 +278,8 @@ pub struct Raft {
 
     /// List of Raft nodes, may include this_node
     pub nodes: HashMap<String, u64>,
+    
+    pub bind_client: bool,
 }
 
 impl Default for Raft {
@@ -289,6 +291,7 @@ impl Default for Raft {
             election_timeout_max: 750,
             this_node: None,
             nodes: HashMap::new(),
+            bind_client: false,
         }
     }
 }
@@ -301,6 +304,7 @@ impl Raft {
                 start: Duration::from_millis(self.election_timeout_min),
                 end: Duration::from_millis(self.election_timeout_max),
             },
+            bind_client: self.bind_client,
         }
     }
 }
